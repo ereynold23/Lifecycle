@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size">20dp</dimen>
+    <dimen name="width">100dp</dimen>
+    <dimen name="seek_size">300dp</dimen>
+    <dimen name="center_size">80dp</dimen>
+</resources>
