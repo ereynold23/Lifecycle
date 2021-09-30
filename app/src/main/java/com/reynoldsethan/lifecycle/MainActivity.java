@@ -15,12 +15,22 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    TextView top_left;
-    TextView top_right;
-    TextView bot_left;
-    TextView bot_right;
-    TextView center;
-    SeekBar font_changer;
+    TextView currentRun;
+    TextView onCreate;
+    TextView onStart;
+    TextView onResume;
+    TextView onPause;
+    TextView onStop;
+    TextView onRestart;
+    TextView onDestroy;
+    TextView lifetime;
+    TextView onCreate2;
+    TextView onStart2;
+    TextView onResume2;
+    TextView onPause2;
+    TextView onStop2;
+    TextView onRestart2;
+    TextView onDestroy2;
     ConstraintLayout main_layout;
     int countonCreate =0;
     int countonStart=0;
@@ -29,66 +39,86 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int countonStop=0;
     int countonRestart=0;
     int countonDestroy=0;
+    int countonCreate2 =0;
+    int countonStart2=0;
+    int countonResume2=0;
+    int countonPause2=0;
+    int countonStop2=0;
+    int countonRestart2=0;
+    int countonDestroy2=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences("Values", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        top_left = findViewById(R.id.top_left_button);
-        top_right = findViewById(R.id.top_right_button);
-        bot_left = findViewById(R.id.bot_left_button);
-        bot_right = findViewById(R.id.bot_right_button);
-        font_changer = findViewById(R.id.font_changer);
-        center = findViewById(R.id.center_number);
-        top_left.setOnClickListener(this);
-        top_right.setOnClickListener(this);
-        bot_right.setOnClickListener(this);
-        bot_left.setOnClickListener(this);
-        center.setOnClickListener(this);
         main_layout = findViewById(R.id.main_layout);
+
+        onCreate = findViewById(R.id.onCreate);
+        onStart = findViewById(R.id.onStart);
+        onResume = findViewById(R.id.onResume);
+        onPause = findViewById(R.id.onPause);
+        onStop = findViewById(R.id.onStop);
+        onRestart = findViewById(R.id.onRestart);
+        onDestroy = findViewById(R.id.onDestroy);
+
+        onCreate2 = findViewById(R.id.onCreate2);
+        onStart2 = findViewById(R.id.onStart2);
+        onResume2 = findViewById(R.id.onResume2);
+        onPause2 = findViewById(R.id.onPause2);
+        onStop2 = findViewById(R.id.onStop2);
+        onRestart2 = findViewById(R.id.onRestart2);
+        onDestroy2 = findViewById(R.id.onDestroy2);
+
+
+
         setInitialValues();
-        main_layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                top_left.setText("0");
-                top_right.setText("0");
-                bot_left.setText("0");
-                bot_right.setText("0");
-                font_changer.setProgress(50);
-                center.setText("0");
-                SharedPreferences wipe = getSharedPreferences("AppSave", MODE_PRIVATE);
-                SharedPreferences.Editor remove = wipe.edit();
-                remove.clear();
-                remove.apply();
-                return false;
-            }
-        });
+        countonCreate++;
+        countonCreate2++;
+        storeValues();
     }
 
     private void setInitialValues() {
-        countonCreate=sharedPreferences.getInt("onCreate",0);
-        countonStart=sharedPreferences.getInt("onStart",0);
-        countonResume=sharedPreferences.getInt("onResume",0);
-        countonPause=sharedPreferences.getInt("onPause",0);
-        countonStop=sharedPreferences.getInt("onStop",0);
-        countonRestart=sharedPreferences.getInt("onRestart",0);
-        countonDestroy=sharedPreferences.getInt("onDestroy",0);
+        countonCreate=sharedPreferences.getInt("donCreate",0);
+        countonStart=sharedPreferences.getInt("donStart",0);
+        countonResume=sharedPreferences.getInt("donResume",0);
+        countonPause=sharedPreferences.getInt("donPause",0);
+        countonStop=sharedPreferences.getInt("donStop",0);
+        countonRestart=sharedPreferences.getInt("donRestart",0);
+        countonDestroy=sharedPreferences.getInt("donDestroy",0);
+
     }
     private void storeValues() {
-        editor.putInt("onCreate",countonCreate);
-        editor.putInt("onStart",countonStart);
-        editor.putInt("onResume",countonResume);
-        editor.putInt("onPause",countonPause);
-        editor.putInt("onStop",countonStop);
-        editor.putInt("onRestart",countonRestart);
-        editor.putInt("onDestroy",countonDestroy);
+        editor.putInt("donCreate",countonCreate);
+        editor.putInt("donStart",countonStart);
+        editor.putInt("donResume",countonResume);
+        editor.putInt("donPause",countonPause);
+        editor.putInt("donStop",countonStop);
+        editor.putInt("donRestart",countonRestart);
+        editor.putInt("donDestroy",countonDestroy);
+
         editor.apply();
+        onStart.setText("onStart: " + countonStart);
+        onStart2.setText("onStart: " + countonStart2);
+        onCreate.setText("onCreate: " + countonCreate);
+        onCreate2.setText("onCreate: " + countonCreate2);
+        onResume.setText("onResume: " + countonResume);
+        onResume2.setText("onResume: " + countonResume2);
+        onPause.setText("onPause: " + countonPause);
+        onPause2.setText("onPause: " + countonPause2);
+        onStop.setText("onStop: " + countonStop);
+        onStop2.setText("onStop: " + countonStop2);
+        onRestart.setText("onRestart: " + countonRestart);
+        onRestart2.setText("onRestart: " + countonRestart2);
+        onDestroy.setText("onDestroy: " + countonDestroy);
+        onDestroy2.setText("onDestroy: " + countonDestroy2);
     }
     @Override
     protected void onStart() {
         super.onStart();
         countonStart++;
+        countonStart2++;
+
         storeValues();
     }
 
@@ -96,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         countonResume++;
+        countonResume2++;
+
         storeValues();
     }
 
@@ -103,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         countonPause++;
+        countonPause2++;
         storeValues();
     }
 
@@ -110,13 +143,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
         countonStop++;
+        countonStop2++;
         storeValues();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        countonStop++;
+        countonRestart++;
+        countonRestart2++;
         storeValues();
     }
 
@@ -124,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         countonDestroy++;
+        countonDestroy2++;
+
         storeValues();
     }
 
